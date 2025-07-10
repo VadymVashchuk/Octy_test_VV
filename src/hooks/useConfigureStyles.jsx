@@ -6,7 +6,6 @@ const useConfigureStyles = () => {
     if (Platform.OS === 'android') {
       StatusBar.setTranslucent(true);
       StatusBar.setBackgroundColor('transparent');
-      StatusBar.setBarStyle('dark-content');
     }
 
     if (Text.defaultProps == null) {
