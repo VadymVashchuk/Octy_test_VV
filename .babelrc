@@ -1,0 +1,33 @@
+{
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": {
+          "@api": "./src/api",
+          "@assets": "./src/assets",
+          "@components": "./src/components",
+          "@constants": "./src/constants",
+          "@core": "./src/core",
+          "@modals": "./src/modals",
+          "@screens": "./src/screens",
+          "@store": "./src/store",
+          "@style": "./src/style",
+          "@tools": "./src/tools",
+          "@hooks": "./src/hooks"
+        },
+        "extensions": [
+          ".ios.js",
+          ".android.js",
+          ".js",
+          ".jsx",
+          ".json",
+          ".tsx",
+          ".ts",
+          ".native.js"
+        ]
+      }
+    ]
+  ]
+}
