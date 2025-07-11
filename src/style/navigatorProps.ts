@@ -5,7 +5,6 @@ export const tabNavigatiorCommonProps = {
   tabBarActiveTintColor: COLORS.white,
   tabBarInactiveTintColor: COLORS.lightGray,
   headerShown: false,
-
   tabBarStyle: {
     borderTopWidth: 0,
     backgroundColor: COLORS.primary,

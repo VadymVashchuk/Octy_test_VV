@@ -1,75 +1,90 @@
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 
-import { useQuery, gql } from '@apollo/client';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Header from '@components/Header';
+import { GET_QUOTES } from '@api/quotes';
+import { useQuery } from '@apollo/client';
 import CommonText from '@components/CommonText';
 import Divider from '@components/Divider';
-import COLORS from '@style/colors';
 import { POPULAR_CURRENCIES } from '@constants/popularCurrencies';
-
-const ALL_CURRENCIES = gql`
-  query AllCurrencies {
-    currencies {
-      code
-      name
-    }
-  }
-`;
-
-export const LATEST_QUOTES = gql`
-  query LatestQuotes($base: String!, $quotes: [String!]!) {
-    latest(baseCurrency: $base, quoteCurrencies: $quotes) {
-      date
-      baseCurrency
-      quoteCurrency
-      quote
-    }
-  }
-`;
+import Header from '@screens/HomeScreen/ScreenComponents/Header';
+import { useQuotesStore } from '@store/quotesStore';
+import COLORS from '@style/colors';
+import { useCallback, useEffect, useMemo } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import type { CurrencyQuote } from 'src/types/currencies';
+import BaseCurrencySelector from './ScreenComponents/BaseCurrencyBlock';
+import CurrencyQuoteElement from './ScreenComponents/CurrencyQuoteElement';
 
 const HomeScreen = () => {
   const insets = useSafeAreaInsets();
 
-  const baseCurrency = POPULAR_CURRENCIES[0]
+  const quotes = useQuotesStore((store) => store.quotes);
+  const triggerLastUpdated = useQuotesStore((store) => store.triggerLastUpdated);
+  const setQuotes = useQuotesStore((store) => store.setQuotes);
 
-  const { data, loading, error } = useQuery(LATEST_QUOTES, {
+  const { data, loading, error, refetch } = useQuery(GET_QUOTES, {
     variables: {
       base: 'EUR',
       quotes: POPULAR_CURRENCIES.map((currency) => currency.code),
     },
   });
 
+  useEffect(() => {
+    if (!data?.latest?.length) return;
+    setQuotes(data.latest);
+  }, [data]);
+
+  const refreshQuotes = () => {
+    refetch()
+      .then((res) => {
+        console.log('REFETCH RESULT:', res);
+        triggerLastUpdated();
+      })
+      .catch(console.error);
+  };
+
+  // console.log(data);
+  // console.log(loading);
+  // console.log(error);
+
+  const renderQuotes = useCallback(
+    ({ item }: { item: CurrencyQuote }) => <CurrencyQuoteElement currencyQuote={item} />,
+    []
+  );
+
+  const horizontalMargin = useMemo(
+    () => ({ marginLeft: insets.left || 12, marginRight: insets.right || 12 }),
+    [insets]
+  );
+
   return (
     <View style={[styles.page]}>
-      <Header title="Exchange rate" />
-      <View style={[styles.content, { paddingLeft: insets.left || 16 }]}>
-        <CommonText size={18}>Base currency:</CommonText>
-        <CommonText size={10} color={COLORS.gray}>
-          tap to change
-        </CommonText>
-
-        <View style={{
-
-        }}>
-          <Image source={baseCurrency.icon} style={{width: 50, height: 30, resizeMode: 'cover', backgroundColor: 'red'}} />
+      <Header refreshQuotes={refreshQuotes} />
+      <View style={[styles.content]}>
+        <View style={horizontalMargin}>
+          <BaseCurrencySelector />
         </View>
-
-        {loading && <Text>Loading...</Text>}
-        {error && <Text>Error: {error.message}</Text>}
-        {data && (
+        {error && (
+          <CommonText color={COLORS.red} marginTop={8} alignCenter>
+            Error: {error.message}
+          </CommonText>
+        )}
+        <Divider height={8} />
+        {loading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size={'large'} color={COLORS.primary} />
+          </View>
+        )}
+        {!!quotes?.length && !loading && (
           <FlatList
-            data={data.currencies}
-            keyExtractor={(item) => item.code}
-            renderItem={({ item }) => (
-              <Text>
-                {item.code} - {item.name}
-              </Text>
-            )}
+            data={quotes}
+            keyExtractor={(item) => item.quoteCurrency}
+            renderItem={renderQuotes}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={horizontalMargin}
+            ListFooterComponent={<Divider height={8} />}
           />
         )}
       </View>
-      {/* <Divider /> */}
     </View>
   );
 };
@@ -83,8 +98,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.white,
     paddingTop: 16,
-    // padding: 24,
-    // backgroundColor: '#242331'
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

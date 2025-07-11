@@ -1,27 +1,13 @@
-import { ImageSourcePropType } from 'react-native';
+import type { Currency } from 'src/types/currencies';
 
-export type PopularCurrency = {
-  code: string;
-  name: string;
-  icon: ImageSourcePropType;
+export const BASE_CURRENCY: Currency = {
+  code: 'EUR',
+  name: 'Euro',
+  icon: require('@assets/flags/eu.png'),
 };
 
-// export const CURRENCY_ICONS = {
-//   USD: require('@assets/flags/us.png'),
-//   EUR: require('@assets/flags/eu.png'),
-//   GBP: require('@assets/flags/uk.png'),
-//   JPY: require('@assets/flags/jp.png'),
-//   CHF: require('@assets/flags/ch.png'),
-//   CAD: require('@assets/flags/ca.png'),
-//   CNY: require('@assets/flags/cn.png'),
-//   SEK: require('@assets/flags/se.png'),
-//   UAH: require('@assets/flags/ua.png'),
-//   PLN: require('@assets/flags/pl.png'),
-// };
-
-export const POPULAR_CURRENCIES: PopularCurrency[] = [
+export const POPULAR_CURRENCIES: Currency[] = [
   { code: 'USD', name: 'United States dollar', icon: require('@assets/flags/us.png') },
-  { code: 'EUR', name: 'Euro', icon: require('@assets/flags/eu.png') },
   { code: 'GBP', name: 'Pound sterling', icon: require('@assets/flags/uk.png') },
   { code: 'JPY', name: 'Japanese yen', icon: require('@assets/flags/jp.png') },
   { code: 'CHF', name: 'Swiss franc', icon: require('@assets/flags/ch.png') },
