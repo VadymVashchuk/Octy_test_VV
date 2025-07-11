@@ -17,7 +17,7 @@ const TabNavigator = () => {
         name={SCREENS.Home}
         component={HomeScreen}
         options={{
-          tabBarLabel: ({ color, focused }) => (
+          tabBarLabel: ({ color }) => (
             <CommonText size={11} color={color}>
               Home
             </CommonText>
@@ -31,7 +31,7 @@ const TabNavigator = () => {
         name={SCREENS.Favorites}
         component={FavoritesScreen}
         options={{
-          tabBarLabel: ({ color, focused }) => (
+          tabBarLabel: ({ color }) => (
             <CommonText size={11} color={color}>
               Favorites
             </CommonText>
