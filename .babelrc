@@ -9,8 +9,6 @@
           "@assets": "./src/assets",
           "@components": "./src/components",
           "@constants": "./src/constants",
-          "@core": "./src/core",
-          "@modals": "./src/modals",
           "@screens": "./src/screens",
           "@store": "./src/store",
           "@style": "./src/style",
