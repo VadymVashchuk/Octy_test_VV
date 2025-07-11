@@ -23,7 +23,7 @@ const Header = ({ refreshQuotes }: HeaderProps) => {
       <StatusBar animated={true} barStyle="light-content" />
       <View style={appStyles.flex1}>
         <CommonText size={24} bold color={COLORS.white} marginBottom={6}>
-          Exchange rate
+          Exchange rates
         </CommonText>
         {!!lastUpdated && (
           <CommonText size={11} color={COLORS.almostWhite}>

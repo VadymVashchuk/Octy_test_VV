@@ -1,5 +1,5 @@
 const SCREENS = {
-  Home: 'Home',
+  Rates: 'Rates',
   Favorites: 'Favorites',
 };
 

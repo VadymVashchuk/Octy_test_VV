@@ -7,16 +7,16 @@ import { useQuery } from '@apollo/client';
 import CommonText from '@components/CommonText';
 import Divider from '@components/Divider';
 import { POPULAR_CURRENCIES } from '@constants/popularCurrencies';
-import Header from '@screens/HomeScreen/ScreenComponents/Header';
 import { useCurrenciesStore } from '@store/currenciesStore';
 import { useQuotesStore } from '@store/quotesStore';
 import COLORS from '@style/colors';
 import type { CurrencyQuote } from 'src/types/currencies';
-import BaseCurrencySelector from './ScreenComponents/BaseCurrencyBlock';
-import CurrencyQuoteElement from './ScreenComponents/CurrencyQuoteElement';
 import appStyles from '@style/appStyles';
+import Header from './ScreenComponents/Header';
+import BaseCurrencyBlock from './ScreenComponents/BaseCurrencyBlock';
+import CurrencyQuoteElement from './ScreenComponents/CurrencyQuoteElement';
 
-const HomeScreen = () => {
+const RatesScreen = () => {
   const insets = useSafeAreaInsets();
 
   const favorites = useCurrenciesStore((store) => store.favorites);
@@ -81,7 +81,7 @@ const HomeScreen = () => {
       <Header refreshQuotes={refreshQuotes} />
       <View style={[styles.content]}>
         <View style={horizontalMargin}>
-          <BaseCurrencySelector />
+          <BaseCurrencyBlock />
         </View>
         {error && (
           <CommonText color={COLORS.red} marginTop={8} alignCenter>
@@ -130,4 +130,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default RatesScreen;
