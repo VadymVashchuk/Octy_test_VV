@@ -1,4 +1,5 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { memo } from 'react';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import CommonText from '@components/CommonText';
@@ -10,9 +11,11 @@ import type { CurrencyQuote } from 'src/types/currencies';
 
 type CurrencyQuoteElementProps = {
   currencyQuote: CurrencyQuote;
+  onToggleFavorite: () => void;
+  isFavorite: boolean;
 };
 
-const CurrencyQuoteElement = ({ currencyQuote }: CurrencyQuoteElementProps) => {
+const CurrencyQuoteElement = memo(({ currencyQuote, onToggleFavorite, isFavorite }: CurrencyQuoteElementProps) => {
   const currency = POPULAR_CURRENCIES.find((cur) => cur.code === currencyQuote.quoteCurrency);
 
   if (!currency) return null;
@@ -31,10 +34,12 @@ const CurrencyQuoteElement = ({ currencyQuote }: CurrencyQuoteElementProps) => {
       <CommonText size={24} color={COLORS.white}>
         {currencyQuote.quote.toFixed(2).toString()}
       </CommonText>
-      <MaterialCommunityIcons name={'heart'} color={COLORS.white} size={26} />
+      <Pressable onPress={onToggleFavorite}>
+        <MaterialCommunityIcons name={isFavorite ? 'heart' : 'heart-outline'} color={COLORS.white} size={26} />
+      </Pressable>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   element: {

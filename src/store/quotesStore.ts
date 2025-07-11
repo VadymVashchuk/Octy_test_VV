@@ -1,8 +1,8 @@
-import { POPULAR_CURRENCIES } from '@constants/popularCurrencies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { Currency, CurrencyQuote } from 'src/types/currencies';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+
+import type { CurrencyQuote } from 'src/types/currencies';
 
 type CurrencyQuotesStore = {
   quotes: CurrencyQuote[];

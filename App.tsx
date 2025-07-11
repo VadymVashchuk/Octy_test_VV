@@ -1,9 +1,9 @@
-import useConfigureStyles from '@hooks/useConfigureStyles';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { API_URL, API_KEY } from '@env';
-import Root from 'src/Root';
 
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { API_KEY, API_URL } from '@env';
+import useConfigureStyles from '@hooks/useConfigureStyles';
+import Root from 'src/Root';
 
 const apolloClient = new ApolloClient({
   uri: API_URL,
