@@ -47,10 +47,12 @@ Offline mode is implemented using zustand persist middleware with Async Storage.
 
 
 Additional Libraries
+
 react-native-vector-icons for icons
 @types/react-native-dotenv for environment variables
 babel-plugin-module-resolver for path aliases
 
 Design
+
 All UI and logic were designed and implemented by Vadym Vashchuk.
 The app uses the 'RobotoSlab' font.
