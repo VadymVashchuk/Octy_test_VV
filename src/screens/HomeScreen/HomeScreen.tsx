@@ -51,8 +51,7 @@ const HomeScreen = () => {
 
   const refreshQuotes = () => {
     refetch()
-      .then((res) => {
-        console.log('REFETCH RESULT:', res);
+      .then(() => {
         triggerLastUpdated();
       })
       .catch(console.error);

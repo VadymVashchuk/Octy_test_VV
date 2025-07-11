@@ -17,7 +17,6 @@ const FavoritesScreen = () => {
 
   const favorites = useCurrenciesStore((store) => store.favorites);
   const lastUpdated = useQuotesStore((store) => store.lastUpdated);
-  const quotes = useQuotesStore((store) => store.quotes);
 
   const sortedFavorites = useMemo(() => {
     return [...favorites].sort((a, b) => {
@@ -29,7 +28,7 @@ const FavoritesScreen = () => {
     ({ item }: { item: CurrencyQuote }) => {
       return <FavoriteCurrencyElement currencyQuote={item} />;
     },
-    [favorites, quotes]
+    [favorites]
   );
 
   const horizontalMargin = useMemo(
@@ -49,25 +48,21 @@ const FavoritesScreen = () => {
         </CommonText>
       )}
       <View style={[styles.content]}>
-        {!quotes?.length ? (
-          <></>
-        ) : (
-          <FlatList
-            data={sortedFavorites}
-            keyExtractor={(item) => item.baseCurrency + item.quoteCurrency}
-            renderItem={renderFavorites}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={[horizontalMargin, styles.list]}
-            ListFooterComponent={<Divider height={8} />}
-            ListEmptyComponent={
-              <View style={styles.emptyMessage}>
-                <CommonText color={COLORS.gray} size={18}>
-                  No favorites saved yet
-                </CommonText>
-              </View>
-            }
-          />
-        )}
+        <FlatList
+          data={sortedFavorites}
+          keyExtractor={(item) => item.baseCurrency + item.quoteCurrency}
+          renderItem={renderFavorites}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[horizontalMargin, styles.list]}
+          ListFooterComponent={<Divider height={8} />}
+          ListEmptyComponent={
+            <View style={styles.emptyMessage}>
+              <CommonText color={COLORS.gray} size={18}>
+                No favorites saved yet
+              </CommonText>
+            </View>
+          }
+        />
       </View>
     </View>
   );
